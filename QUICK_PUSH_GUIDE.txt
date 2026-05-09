@@ -1,0 +1,82 @@
+═══════════════════════════════════════════════════════════════
+  QUICK GUIDE: Push PipPip API to GitHub
+═══════════════════════════════════════════════════════════════
+
+STEP 1: Get Your Personal Access Token
+───────────────────────────────────────────────────────────────
+1. Open browser and go to:
+   https://github.com/settings/tokens
+
+2. Click "Generate new token (classic)"
+
+3. Settings:
+   - Note: "PipPip API"
+   - Expiration: 90 days
+   - Scopes: Check ✅ "repo"
+
+4. Click "Generate token"
+
+5. COPY THE TOKEN (starts with ghp_...)
+   ⚠️ You won't see it again!
+
+═══════════════════════════════════════════════════════════════
+
+STEP 2: Push to GitHub
+───────────────────────────────────────────────────────────────
+Open PowerShell in this directory and run:
+
+git push -u origin main
+
+When prompted:
+  Username: hello@envision-tech.co.in
+  Password: [PASTE YOUR TOKEN HERE - NOT YOUR PASSWORD]
+
+═══════════════════════════════════════════════════════════════
+
+ALTERNATIVE: One Command Push
+───────────────────────────────────────────────────────────────
+Replace YOUR_TOKEN with your actual token:
+
+git remote set-url origin https://YOUR_TOKEN@github.com/envision-tech-co/piepie-api.git && git push -u origin main && git remote set-url origin https://github.com/envision-tech-co/piepie-api.git
+
+═══════════════════════════════════════════════════════════════
+
+IF REPOSITORY DOESN'T EXIST:
+───────────────────────────────────────────────────────────────
+1. Go to: https://github.com/organizations/envision-tech-co/repositories/new
+2. Name: piepie-api
+3. Private: Yes
+4. Don't initialize with README
+5. Create repository
+6. Then run the push command above
+
+═══════════════════════════════════════════════════════════════
+
+WHAT'S BEING PUSHED:
+───────────────────────────────────────────────────────────────
+✅ Complete Laravel 11 authentication system
+✅ Customer, Provider, Admin auth
+✅ All migrations and models
+✅ API endpoints with Sanctum
+✅ Admin dashboard views
+✅ .env file (development config)
+✅ Postman collection
+✅ Complete documentation
+
+91 files total
+
+═══════════════════════════════════════════════════════════════
+
+VERIFY SUCCESS:
+───────────────────────────────────────────────────────────────
+After push, check:
+https://github.com/envision-tech-co/piepie-api
+
+═══════════════════════════════════════════════════════════════
+
+NEED HELP? Check these files:
+- PUSH_TO_GITHUB.md (detailed instructions)
+- DEPLOYMENT_INSTRUCTIONS.md (deployment guide)
+- AUTH_DOCUMENTATION.md (API documentation)
+
+═══════════════════════════════════════════════════════════════
