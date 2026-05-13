@@ -45,4 +45,9 @@ class Customer extends Authenticatable
             'phone_verified_at' => 'datetime',
         ];
     }
+
+    public function bookings(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Booking::class);
+    }
 }

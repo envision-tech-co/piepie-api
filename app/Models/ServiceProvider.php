@@ -25,6 +25,8 @@ class ServiceProvider extends Authenticatable
         'language',
         'status',
         'is_online',
+        'current_lat',
+        'current_lng',
         'overall_rating',
         'total_jobs',
         'phone_verified_at',
@@ -48,9 +50,21 @@ class ServiceProvider extends Authenticatable
     {
         return [
             'is_online' => 'boolean',
+            'current_lat' => 'decimal:7',
+            'current_lng' => 'decimal:7',
             'overall_rating' => 'decimal:2',
             'total_jobs' => 'integer',
             'phone_verified_at' => 'datetime',
         ];
+    }
+
+    public function bookings(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Booking::class, 'provider_id');
+    }
+
+    public function jobOffers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\ProviderJobOffer::class, 'provider_id');
     }
 }

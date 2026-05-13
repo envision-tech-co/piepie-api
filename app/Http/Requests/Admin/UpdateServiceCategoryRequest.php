@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Http\Requests\Admin;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class UpdateServiceCategoryRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
+    {
+        return [
+            'name_en' => ['sometimes', 'string', 'max:255'],
+            'name_ar' => ['sometimes', 'string', 'max:255'],
+            'name_ku' => ['sometimes', 'string', 'max:255'],
+            'description_en' => ['nullable', 'string', 'max:1000'],
+            'description_ar' => ['nullable', 'string', 'max:1000'],
+            'description_ku' => ['nullable', 'string', 'max:1000'],
+            'icon' => ['sometimes', 'string', 'max:100'],
+            'base_price' => ['sometimes', 'numeric', 'min:0'],
+            'is_active' => ['sometimes', 'boolean'],
+            'sort_order' => ['sometimes', 'integer', 'min:0'],
+        ];
+    }
+}
