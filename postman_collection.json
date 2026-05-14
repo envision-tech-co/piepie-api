@@ -1,379 +1,1639 @@
 {
-  "info": {
-    "name": "PipPip Authentication API",
-    "description": "Complete authentication endpoints for PipPip platform (Customer, Provider, Admin)",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "variable": [
-    {
-      "key": "base_url",
-      "value": "http://localhost:8000",
-      "type": "string"
+    "info": {
+        "name": "PipPip API",
+        "description": "Complete API for PipPip platform — Authentication, Service Booking & Dispatch, Admin management. Tokens set as collection variables after login.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
-    {
-      "key": "customer_token",
-      "value": "",
-      "type": "string"
-    },
-    {
-      "key": "provider_token",
-      "value": "",
-      "type": "string"
-    }
-  ],
-  "item": [
-    {
-      "name": "Customer Auth",
-      "item": [
+    "variable": [
         {
-          "name": "Send OTP",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept-Language",
-                "value": "en"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"phone\": \"+9647501234567\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{base_url}}/api/customer/auth/send-otp",
-              "host": ["{{base_url}}"],
-              "path": ["api", "customer", "auth", "send-otp"]
-            }
-          }
+            "key": "base_url",
+            "value": "http://localhost:8000",
+            "type": "string"
         },
         {
-          "name": "Verify OTP",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept-Language",
-                "value": "en"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"phone\": \"+9647501234567\",\n  \"otp\": \"123456\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{base_url}}/api/customer/auth/verify-otp",
-              "host": ["{{base_url}}"],
-              "path": ["api", "customer", "auth", "verify-otp"]
-            }
-          }
+            "key": "customer_token",
+            "value": "",
+            "type": "string"
         },
         {
-          "name": "Complete Profile",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{customer_token}}"
-              },
-              {
-                "key": "Accept-Language",
-                "value": "en"
-              }
-            ],
-            "body": {
-              "mode": "formdata",
-              "formdata": [
-                {
-                  "key": "name",
-                  "value": "John Doe",
-                  "type": "text"
-                },
-                {
-                  "key": "language",
-                  "value": "en",
-                  "type": "text"
-                },
-                {
-                  "key": "profile_photo",
-                  "type": "file",
-                  "src": []
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{base_url}}/api/customer/auth/complete-profile",
-              "host": ["{{base_url}}"],
-              "path": ["api", "customer", "auth", "complete-profile"]
-            }
-          }
+            "key": "provider_token",
+            "value": "",
+            "type": "string"
         },
         {
-          "name": "Get Me",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{customer_token}}"
-              },
-              {
-                "key": "Accept-Language",
-                "value": "en"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/customer/auth/me",
-              "host": ["{{base_url}}"],
-              "path": ["api", "customer", "auth", "me"]
-            }
-          }
+            "key": "booking_reference",
+            "value": "",
+            "type": "string"
         },
         {
-          "name": "Logout",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{customer_token}}"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/customer/auth/logout",
-              "host": ["{{base_url}}"],
-              "path": ["api", "customer", "auth", "logout"]
-            }
-          }
+            "key": "offer_id",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "service_category_id",
+            "value": "1",
+            "type": "string"
+        },
+        {
+            "key": "commission_id",
+            "value": "",
+            "type": "string"
         }
-      ]
-    },
-    {
-      "name": "Provider Auth",
-      "item": [
+    ],
+    "item": [
         {
-          "name": "Send OTP",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept-Language",
-                "value": "en"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"phone\": \"+9647509876543\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
+            "name": "Customer Auth",
+            "item": [
+                {
+                    "name": "Send OTP",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/customer/auth/send-otp",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "customer",
+                                "auth",
+                                "send-otp"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"phone\": \"+9647501234567\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Verify OTP",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/customer/auth/verify-otp",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "customer",
+                                "auth",
+                                "verify-otp"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"phone\": \"+9647501234567\",\n  \"otp\": \"123456\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Complete Profile",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{customer_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "name",
+                                    "value": "John Doe",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "language",
+                                    "value": "en",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "profile_photo",
+                                    "type": "file",
+                                    "src": []
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/customer/auth/complete-profile",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "customer",
+                                "auth",
+                                "complete-profile"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Me",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{customer_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/customer/auth/me",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "customer",
+                                "auth",
+                                "me"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Logout",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{customer_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/customer/auth/logout",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "customer",
+                                "auth",
+                                "logout"
+                            ]
+                        }
+                    }
                 }
-              }
-            },
-            "url": {
-              "raw": "{{base_url}}/api/provider/auth/send-otp",
-              "host": ["{{base_url}}"],
-              "path": ["api", "provider", "auth", "send-otp"]
-            }
-          }
+            ]
         },
         {
-          "name": "Verify OTP",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept-Language",
-                "value": "en"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"phone\": \"+9647509876543\",\n  \"otp\": \"123456\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
+            "name": "Provider Auth",
+            "item": [
+                {
+                    "name": "Send OTP",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/provider/auth/send-otp",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "provider",
+                                "auth",
+                                "send-otp"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"phone\": \"+9647509876543\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Verify OTP",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/provider/auth/verify-otp",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "provider",
+                                "auth",
+                                "verify-otp"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"phone\": \"+9647509876543\",\n  \"otp\": \"123456\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Register",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{provider_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "name",
+                                    "value": "Ahmed Mechanic",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "vehicle_type",
+                                    "value": "car",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "service_speciality",
+                                    "value": "Engine Repair",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "language",
+                                    "value": "en",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "id_document",
+                                    "type": "file",
+                                    "src": []
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/provider/auth/register",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "provider",
+                                "auth",
+                                "register"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Me",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{provider_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/provider/auth/me",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "provider",
+                                "auth",
+                                "me"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Logout",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{provider_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/provider/auth/logout",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "provider",
+                                "auth",
+                                "logout"
+                            ]
+                        }
+                    }
                 }
-              }
-            },
-            "url": {
-              "raw": "{{base_url}}/api/provider/auth/verify-otp",
-              "host": ["{{base_url}}"],
-              "path": ["api", "provider", "auth", "verify-otp"]
-            }
-          }
+            ]
         },
         {
-          "name": "Register",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{provider_token}}"
-              },
-              {
-                "key": "Accept-Language",
-                "value": "en"
-              }
-            ],
-            "body": {
-              "mode": "formdata",
-              "formdata": [
+            "name": "Admin Auth",
+            "item": [
                 {
-                  "key": "name",
-                  "value": "Ahmed Mechanic",
-                  "type": "text"
+                    "name": "Login (Web)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/admin/login",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "login"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"admin@pippip.com\",\n  \"password\": \"Admin@123456\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
                 },
                 {
-                  "key": "vehicle_type",
-                  "value": "car",
-                  "type": "text"
-                },
-                {
-                  "key": "service_speciality",
-                  "value": "Engine Repair",
-                  "type": "text"
-                },
-                {
-                  "key": "language",
-                  "value": "en",
-                  "type": "text"
-                },
-                {
-                  "key": "id_document",
-                  "type": "file",
-                  "src": []
+                    "name": "Logout",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/admin/logout",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "logout"
+                            ]
+                        }
+                    }
                 }
-              ]
-            },
-            "url": {
-              "raw": "{{base_url}}/api/provider/auth/register",
-              "host": ["{{base_url}}"],
-              "path": ["api", "provider", "auth", "register"]
-            }
-          }
+            ]
         },
         {
-          "name": "Get Me",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{provider_token}}"
-              },
-              {
-                "key": "Accept-Language",
-                "value": "en"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/provider/auth/me",
-              "host": ["{{base_url}}"],
-              "path": ["api", "provider", "auth", "me"]
-            }
-          }
+            "name": "Public",
+            "item": [
+                {
+                    "name": "List Active Service Categories",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/services",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "services"
+                            ]
+                        }
+                    }
+                }
+            ]
         },
         {
-          "name": "Logout",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{provider_token}}"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/provider/auth/logout",
-              "host": ["{{base_url}}"],
-              "path": ["api", "provider", "auth", "logout"]
-            }
-          }
+            "name": "Customer Bookings",
+            "item": [
+                {
+                    "name": "Create Booking (Immediate)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{customer_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/customer/bookings",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "customer",
+                                "bookings"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"service_category_id\": \"{{service_category_id}}\",\n    \"customer_lat\": 36.1901,\n    \"customer_lng\": 44.0089,\n    \"customer_address\": \"123 Test Street, Erbil, Iraq\",\n    \"customer_notes\": \"Please call when you arrive\",\n    \"booking_type\": \"immediate\",\n    \"payment_method\": \"cash\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Create Booking (Scheduled)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{customer_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/customer/bookings",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "customer",
+                                "bookings"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"service_category_id\": \"{{service_category_id}}\",\n    \"customer_lat\": 36.1901,\n    \"customer_lng\": 44.0089,\n    \"customer_address\": \"123 Test Street, Erbil, Iraq\",\n    \"booking_type\": \"scheduled\",\n    \"scheduled_at\": \"2026-12-01 10:00:00\",\n    \"payment_method\": \"cash\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "List My Bookings",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{customer_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/customer/bookings?status=completed&page=1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "customer",
+                                "bookings"
+                            ],
+                            "query": [
+                                {
+                                    "key": "status",
+                                    "value": "completed",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "disabled": true
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Booking Detail",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{customer_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/customer/bookings/{{booking_reference}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "customer",
+                                "bookings",
+                                "{{booking_reference}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Cancel Booking",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{customer_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/customer/bookings/{{booking_reference}}/cancel",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "customer",
+                                "bookings",
+                                "{{booking_reference}}",
+                                "cancel"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"reason\": \"Changed my mind\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Track Booking (Live)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{customer_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/customer/bookings/{{booking_reference}}/track",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "customer",
+                                "bookings",
+                                "{{booking_reference}}",
+                                "track"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Provider Bookings",
+            "item": [
+                {
+                    "name": "List Pending Offers",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{provider_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/provider/bookings/offers",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "provider",
+                                "bookings",
+                                "offers"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Accept Offer",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{provider_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/provider/bookings/offers/{{offer_id}}/accept",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "provider",
+                                "bookings",
+                                "offers",
+                                "{{offer_id}}",
+                                "accept"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Decline Offer",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{provider_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/provider/bookings/offers/{{offer_id}}/decline",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "provider",
+                                "bookings",
+                                "offers",
+                                "{{offer_id}}",
+                                "decline"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Active Booking",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{provider_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/provider/bookings/active",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "provider",
+                                "bookings",
+                                "active"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Status (on_the_way)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{provider_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/provider/bookings/{{booking_reference}}/status",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "provider",
+                                "bookings",
+                                "{{booking_reference}}",
+                                "status"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"status\": \"on_the_way\",\n    \"lat\": 36.1905,\n    \"lng\": 44.009,\n    \"notes\": \"Heading to customer\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Update Status (arrived)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{provider_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/provider/bookings/{{booking_reference}}/status",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "provider",
+                                "bookings",
+                                "{{booking_reference}}",
+                                "status"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"status\": \"arrived\",\n    \"lat\": 36.1901,\n    \"lng\": 44.0089\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Update Status (in_progress)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{provider_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/provider/bookings/{{booking_reference}}/status",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "provider",
+                                "bookings",
+                                "{{booking_reference}}",
+                                "status"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"status\": \"in_progress\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Update Status (completed)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{provider_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/provider/bookings/{{booking_reference}}/status",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "provider",
+                                "bookings",
+                                "{{booking_reference}}",
+                                "status"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"status\": \"completed\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "List My Bookings (History)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{provider_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/provider/bookings?status=completed&from_date=2026-01-01&to_date=2026-12-31&page=1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "provider",
+                                "bookings"
+                            ],
+                            "query": [
+                                {
+                                    "key": "status",
+                                    "value": "completed",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "from_date",
+                                    "value": "2026-01-01",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "to_date",
+                                    "value": "2026-12-31",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "disabled": true
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Admin Bookings",
+            "description": "Requires admin web session. Login via Admin Auth > Login (Web) first; Postman cookie jar carries the session.",
+            "item": [
+                {
+                    "name": "List All Bookings (filters)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/admin/api/bookings?page=1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "api",
+                                "bookings"
+                            ],
+                            "query": [
+                                {
+                                    "key": "status",
+                                    "value": "completed",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "service_category_id",
+                                    "value": "1",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "provider_id",
+                                    "value": "1",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "customer_id",
+                                    "value": "1",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "from_date",
+                                    "value": "2026-01-01",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "to_date",
+                                    "value": "2026-12-31",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "search",
+                                    "value": "PP-2026-",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "disabled": false
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Booking Detail",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/admin/api/bookings/{{booking_reference}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "api",
+                                "bookings",
+                                "{{booking_reference}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Live Bookings (no pagination)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/admin/api/bookings/live",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "api",
+                                "bookings",
+                                "live"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Force Cancel Booking",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/admin/api/bookings/{{booking_reference}}/cancel",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "api",
+                                "bookings",
+                                "{{booking_reference}}",
+                                "cancel"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"reason\": \"Force cancelled by admin\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Admin Service Categories",
+            "item": [
+                {
+                    "name": "List All Categories",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/admin/api/services",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "api",
+                                "services"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Category",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/admin/api/services",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "api",
+                                "services"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name_en\": \"Car Wash\",\n    \"name_ar\": \"غسيل سيارات\",\n    \"name_ku\": \"شۆردنی ئۆتۆمبێل\",\n    \"description_en\": \"Mobile car wash service\",\n    \"description_ar\": \"خدمة غسيل سيارات متنقلة\",\n    \"description_ku\": \"خزمەتگوزاری شۆردنی ئۆتۆمبێل\",\n    \"icon\": \"sparkles\",\n    \"base_price\": 3500,\n    \"is_active\": true,\n    \"sort_order\": 7\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Update Category",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/admin/api/services/{{service_category_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "api",
+                                "services",
+                                "{{service_category_id}}"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"base_price\": 4000,\n  \"is_active\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Toggle Active Status",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/admin/api/services/{{service_category_id}}/toggle",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "api",
+                                "services",
+                                "{{service_category_id}}",
+                                "toggle"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Admin Commissions",
+            "item": [
+                {
+                    "name": "List All Commissions",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/admin/api/commissions",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "api",
+                                "commissions"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Set Global Commission",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/admin/api/commissions",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "api",
+                                "commissions"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"service_category_id\": null,\n  \"rate\": 20.0\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Set Category Commission Override",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/admin/api/commissions",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "api",
+                                "commissions"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"service_category_id\": 1,\n  \"rate\": 15.0\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Category Commission Override",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "en"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/admin/api/commissions/{{commission_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "api",
+                                "commissions",
+                                "{{commission_id}}"
+                            ]
+                        }
+                    }
+                }
+            ]
         }
-      ]
-    },
-    {
-      "name": "Admin Auth",
-      "item": [
-        {
-          "name": "Login (Web)",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"email\": \"admin@pippip.com\",\n  \"password\": \"Admin@123456\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{base_url}}/admin/login",
-              "host": ["{{base_url}}"],
-              "path": ["admin", "login"]
-            }
-          }
-        }
-      ]
-    }
-  ]
+    ]
 }

@@ -65,6 +65,23 @@ class AuthController extends Controller
      */
     public function dashboard(): View
     {
-        return view('admin.dashboard');
+        $stats = [
+            'customers' => \App\Models\Customer::count(),
+            'providers' => \App\Models\ServiceProvider::count(),
+            'pending_providers' => \App\Models\ServiceProvider::where('status', 'pending')->count(),
+            'online_providers' => \App\Models\ServiceProvider::where('is_online', true)->count(),
+            'total_bookings' => \App\Models\Booking::count(),
+            'active_bookings' => \App\Models\Booking::active()->count(),
+            'completed_bookings' => \App\Models\Booking::where('status', 'completed')->count(),
+            'revenue_total' => (float) \App\Models\Booking::where('status', 'completed')->sum('commission_amount'),
+            'service_categories' => \App\Models\ServiceCategory::count(),
+        ];
+
+        $recentBookings = \App\Models\Booking::with(['customer', 'provider', 'serviceCategory'])
+            ->orderByDesc('created_at')
+            ->limit(10)
+            ->get();
+
+        return view('admin.dashboard', compact('stats', 'recentBookings'));
     }
 }
