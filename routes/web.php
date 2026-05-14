@@ -12,11 +12,19 @@ use App\Http\Controllers\Admin\ServiceCategoryWebController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return auth('admin')->check()
+        ? redirect()->route('admin.dashboard')
+        : redirect()->route('admin.login');
 });
 
 // Admin Routes
 Route::prefix('admin')->group(function () {
+    Route::get('/', function () {
+        return auth('admin')->check()
+            ? redirect()->route('admin.dashboard')
+            : redirect()->route('admin.login');
+    });
+
     Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
     Route::post('login', [AdminAuthController::class, 'login']);
 
