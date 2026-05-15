@@ -67,4 +67,19 @@ class ServiceProvider extends Authenticatable
     {
         return $this->hasMany(\App\Models\ProviderJobOffer::class, 'provider_id');
     }
+
+    public function location(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(\App\Models\ProviderLocation::class, 'provider_id');
+    }
+
+    public function deviceTokens(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(\App\Models\DeviceToken::class, 'tokenable');
+    }
+
+    public function notifications(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(\App\Models\AppNotification::class, 'notifiable');
+    }
 }

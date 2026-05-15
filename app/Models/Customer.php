@@ -50,4 +50,14 @@ class Customer extends Authenticatable
     {
         return $this->hasMany(\App\Models\Booking::class);
     }
+
+    public function deviceTokens(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(\App\Models\DeviceToken::class, 'tokenable');
+    }
+
+    public function notifications(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(\App\Models\AppNotification::class, 'notifiable');
+    }
 }

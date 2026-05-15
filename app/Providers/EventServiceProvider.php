@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Events\BookingAccepted;
 use App\Events\BookingDispatched;
 use App\Events\BookingStatusUpdated;
+use App\Events\NoProvidersAvailable;
+use App\Listeners\HandleNoProviders;
 use App\Listeners\NotifyCustomerOfAcceptance;
 use App\Listeners\NotifyCustomerOfStatusUpdate;
 use App\Listeners\NotifyProvidersOfNewJob;
@@ -26,6 +28,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         BookingStatusUpdated::class => [
             NotifyCustomerOfStatusUpdate::class,
+        ],
+        NoProvidersAvailable::class => [
+            HandleNoProviders::class,
         ],
     ];
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\BookingWebController;
 use App\Http\Controllers\Admin\CommissionController as AdminCommissionController;
 use App\Http\Controllers\Admin\CommissionWebController;
 use App\Http\Controllers\Admin\CustomerWebController;
+use App\Http\Controllers\Admin\LiveMonitorController;
 use App\Http\Controllers\Admin\ProviderWebController;
 use App\Http\Controllers\Admin\ServiceCategoryController as AdminServiceCategoryController;
 use App\Http\Controllers\Admin\ServiceCategoryWebController;
@@ -66,6 +67,10 @@ Route::prefix('admin')->group(function () {
 
         // Admin API — JSON responses
         Route::prefix('api')->group(function () {
+            // Live Monitor
+            Route::get('live/bookings', [LiveMonitorController::class, 'bookings']);
+            Route::get('live/providers', [LiveMonitorController::class, 'providers']);
+
             // Bookings
             Route::get('bookings/live', [AdminBookingController::class, 'live']);
             Route::get('bookings', [AdminBookingController::class, 'index']);

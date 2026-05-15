@@ -6,8 +6,6 @@ use App\Enums\BookingStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Customer\CreateBookingRequest;
 use App\Http\Resources\BookingResource;
-use App\Http\Resources\BookingStatusLogResource;
-use App\Http\Resources\ProviderResource;
 use App\Models\Booking;
 use App\Services\BookingService;
 use Illuminate\Http\JsonResponse;
@@ -115,44 +113,6 @@ class BookingController extends Controller
             'success' => true,
             'message' => 'Booking cancelled successfully.',
             'booking' => new BookingResource($booking),
-        ]);
-    }
-
-    /**
-     * Live tracking data for a booking.
-     */
-    public function track(Request $request, string $reference): JsonResponse
-    {
-        $customer = $request->user();
-
-        $booking = Booking::with(['provider', 'statusLogs'])
-            ->forCustomer($customer->id)
-            ->where('reference_number', $reference)
-            ->firstOrFail();
-
-        $providerData = null;
-        if ($booking->provider) {
-            $providerData = [
-                'name' => $booking->provider->name,
-                'phone' => $booking->provider->phone,
-                'rating' => (float) $booking->provider->overall_rating,
-            ];
-
-            // Only show provider location when on_the_way or arrived
-            if (in_array($booking->status, [BookingStatus::OnTheWay, BookingStatus::Arrived])) {
-                $providerData['lat'] = $booking->provider_lat ? (float) $booking->provider_lat : null;
-                $providerData['lng'] = $booking->provider_lng ? (float) $booking->provider_lng : null;
-            }
-        }
-
-        return response()->json([
-            'success' => true,
-            'data' => [
-                'status' => $booking->status->value,
-                'status_label' => $booking->status->label(),
-                'provider' => $providerData,
-                'status_log' => BookingStatusLogResource::collection($booking->statusLogs),
-            ],
         ]);
     }
 }

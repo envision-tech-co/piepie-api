@@ -10,11 +10,13 @@ use App\Events\BookingAccepted;
 use App\Events\BookingDispatched;
 use App\Events\BookingStatusUpdated;
 use App\Events\NoProvidersAvailable;
+use App\Events\ProviderAssigned;
 use App\Models\Booking;
 use App\Models\BookingStatusLog;
 use App\Models\CommissionSetting;
 use App\Models\Customer;
 use App\Models\ProviderJobOffer;
+use App\Models\ProviderLocation;
 use App\Models\ServiceCategory;
 use App\Models\ServiceProvider;
 use Illuminate\Support\Facades\DB;
@@ -155,6 +157,7 @@ class BookingService
             $this->logStatusChange($booking, BookingStatus::Searching, BookingStatus::Accepted, $provider);
 
             event(new BookingAccepted($booking));
+            event(new ProviderAssigned($booking));
 
             return $booking->fresh(['customer', 'provider', 'serviceCategory', 'statusLogs']);
         });
@@ -190,6 +193,15 @@ class BookingService
             if (isset($context['lat']) && isset($context['lng'])) {
                 $updateData['provider_lat'] = $context['lat'];
                 $updateData['provider_lng'] = $context['lng'];
+            }
+
+            // If on_the_way, also attach current provider location from provider_locations table
+            if ($newStatus === BookingStatus::OnTheWay && $booking->provider_id) {
+                $providerLoc = ProviderLocation::where('provider_id', $booking->provider_id)->first();
+                if ($providerLoc && !isset($context['lat'])) {
+                    $updateData['provider_lat'] = $providerLoc->lat;
+                    $updateData['provider_lng'] = $providerLoc->lng;
+                }
             }
 
             // Calculate financials on completion

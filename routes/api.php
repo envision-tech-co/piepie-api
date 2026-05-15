@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\Api\Customer\AuthController as CustomerAuthController;
 use App\Http\Controllers\Api\Customer\BookingController as CustomerBookingController;
+use App\Http\Controllers\Api\Customer\TrackingController;
 use App\Http\Controllers\Api\Provider\AuthController as ProviderAuthController;
 use App\Http\Controllers\Api\Provider\BookingController as ProviderBookingController;
+use App\Http\Controllers\Api\Provider\LocationController;
+use App\Http\Controllers\Api\Shared\NotificationController;
 use App\Http\Controllers\Admin\ServiceCategoryController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,7 +40,7 @@ Route::prefix('customer/bookings')->middleware(['auth:sanctum', 'ability:custome
     Route::get('/', [CustomerBookingController::class, 'index']);
     Route::get('{reference}', [CustomerBookingController::class, 'show']);
     Route::post('{reference}/cancel', [CustomerBookingController::class, 'cancel']);
-    Route::get('{reference}/track', [CustomerBookingController::class, 'track']);
+    Route::get('{reference}/track', [TrackingController::class, 'show']);
 });
 
 // Provider Auth Routes
@@ -63,4 +66,19 @@ Route::prefix('provider/bookings')->middleware(['auth:sanctum', 'ability:provide
     Route::get('active', [ProviderBookingController::class, 'active']);
     Route::post('{reference}/status', [ProviderBookingController::class, 'updateStatus']);
     Route::get('/', [ProviderBookingController::class, 'index']);
+});
+
+// Provider Location Routes
+Route::prefix('provider/location')->middleware(['auth:sanctum', 'ability:provider'])->group(function () {
+    Route::post('/', [LocationController::class, 'update'])->middleware('throttle:60,1');
+    Route::get('current', [LocationController::class, 'current']);
+});
+
+// Shared Notification Routes (both customer and provider)
+Route::prefix('notifications')->middleware(['auth:sanctum'])->group(function () {
+    Route::post('device-token', [NotificationController::class, 'register']);
+    Route::delete('device-token', [NotificationController::class, 'remove']);
+    Route::get('/', [NotificationController::class, 'index']);
+    Route::post('{id}/read', [NotificationController::class, 'markRead']);
+    Route::post('read-all', [NotificationController::class, 'markAllRead']);
 });
